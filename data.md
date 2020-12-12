@@ -90,7 +90,8 @@ commit;
 		ResultSet rs = st.executeQuery(sql);
 ```
 
-### 3.1.2. select문으로 쿼리 불러오기
+### 3.1.2. [select문으로 쿼리 불러오기](JDBCprj/src/ex1/Program.java)
+
 ```java
 while(rs.next()) {
 			int id = rs.getInt("ID");
