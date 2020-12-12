@@ -4,6 +4,10 @@
   - [1.3. Role 테이블 생성](#13-role-테이블-생성)
   - [1.4. member_role 테이블 생성](#14-member_role-테이블-생성)
   - [1.5. member 테이블 생성](#15-member-테이블-생성)
+- [2. 데이터 삽입](#2-데이터-삽입)
+- [3. jdbc](#3-jdbc)
+  - [3.1.1. driver, statement, resultset객체 만들어주기](#311-driver-statement-resultset객체-만들어주기)
+    - [3.1.2. select문으로 쿼리 불러오기](#312-select문으로-쿼리-불러오기)
 
 
 # 1. 테이블 생성
@@ -63,4 +67,43 @@ create table member(
     regdate date,
     email varchar2(200)
     );
+```
+
+# 2. 데이터 삽입
+- 이 때 commit은 필수
+```sql
+insert into notice values(1, 'jdbc란 무엇인가?','jenn', 'aaa', sysdate, 0, '');
+insert into notice values(2, 'jdbc2란 무엇인가?','jenn', 'aaa', sysdate, 0, '');
+insert into notice values(3, 'jdbc3란 무엇인가?','jenn', 'aaa', sysdate, 0, '');
+commit;
+```
+
+# 3. jdbc
+## 3.1.1. driver, statement, resultset객체 만들어주기
+```java
+		String url = "jdbc:oracle:thin:@localhost:1521:XE";
+		String sql = "SELECT * FROM NOTICE";
+		
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection con = DriverManager.getConnection(url, "system", "oracle");
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery(sql);
+```
+
+### 3.1.2. select문으로 쿼리 불러오기
+```java
+while(rs.next()) {
+			int id = rs.getInt("ID");
+			String title = rs.getString("TITLE");
+			String writerId = rs.getString("WRITER_ID");
+			Date regDate = rs.getDate("REGDATE");
+			String content = rs.getString("CONTENT");
+			int hit = rs.getInt("hit");
+			
+			System.out.printf("id : %d, title: %s, writerId:%s, regDate : %s, content:%s, hit : %d\n",
+								id, title, writerId, regDate, content, hit);
+		}
+		rs.close();
+		st.close();
+		con.close();
 ```
