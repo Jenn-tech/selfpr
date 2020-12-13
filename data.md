@@ -10,6 +10,7 @@
     - [3.1.1. select문으로 쿼리 불러오기](#311-select문으로-쿼리-불러오기)
     - [3.1.2. insert문으로 데이터 삽입하기](#312-insert문으로-데이터-삽입하기)
     - [3.1.3 update문으로 데이터 수정하기](#313-update문으로-데이터-수정하기)
+    - [3.1.4 delete로 데이터 삭제하기](#314-delete로-데이터-삭제하기)
 
 
 # 1. 테이블 생성
@@ -157,9 +158,9 @@ while(rs.next()) {
 - id가 17번째인 값을 수정하려고 한다.    
   update는 insert와 거의 흡사하다  
   만약 오류가 발생한다면 sql안의 쿼리문이 진짜 제대로된 쿼리문인지 확인
-  (notice뒤에 띄어쓰기가 없어서 오류가 발생했었음)
+  (notice뒤에 띄어쓰기가 없어서 오류가 발생했었음, 빈공백이 있는지 확인)
 ```java
-String title ="test3";
+        String title ="test3";
 		String content = "hahaha3";
 		String files = "";
 		int id = 17;
@@ -179,6 +180,27 @@ String title ="test3";
 		st.setString(2, content);
 		st.setString(3, files);
 		st.setInt(4, id);
+		
+		int result = st.executeUpdate();
+		
+		System.out.println(result);
+		
+		st.close();
+		con.close();
+```
+
+### 3.1.4 [delete로 데이터 삭제하기](JDBCprj/src/ex1/Program4.java)
+- 앞과 거의 유사
+```java
+        int id = 17;
+		
+		String url = "jdbc:oracle:thin:@localhost:1521:XE";
+		String sql = "delete notice where id =?";
+		
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection con = DriverManager.getConnection(url, "system", "oracle");
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setInt(1, id);
 		
 		int result = st.executeUpdate();
 		
