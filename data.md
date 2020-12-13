@@ -71,7 +71,7 @@ create table member(
 ```
 
 # 2. 데이터 삽입
-- 이 때 commit은 필수
+- 이 때 **commit은** 필수
 ```sql
 insert into notice values(1, 'jdbc란 무엇인가?','jenn', 'aaa', sysdate, 0, '');
 insert into notice values(2, 'jdbc2란 무엇인가?','jenn', 'aaa', sysdate, 0, '');
@@ -86,7 +86,7 @@ commit;
 # 3. jdbc
 ### 3.1.1. [select문으로 쿼리 불러오기](JDBCprj/src/ex1/Program.java)
 - driver, statement, resultset객체 만들어주기
-- select문을 쓸때는 executeQuery를 사용함
+- select문을 쓸때는 **executeQuery를** 사용함
 - 자원을 소모하므로 close해주기
 
 ```java
@@ -117,11 +117,11 @@ while(rs.next()) {
   
 ### 3.1.2. [insert문으로 데이터 삽입하기](JDBCprj/src/ex1/Program2.java)
 - 쿼리문에 ?을 넣으면서 값을 끼워넣을 수 있는 문장준비
-- 따라서 createStatement가 아닌 prepareStatement를 쓴다
+- 따라서 createStatement가 아닌 **prepareStatement**를 쓴다
   - 이 때 prepareStatement안에는 sql이 들어있음
 - 각각 ?에 맞는 인덱스와 넣을 값을 setString(int, double등 타입에 맞춰 사용)으로 넣어준다
-  - 이 때 index값은 
-- insert문 쓸 때는 executeUpdate를 사용
+  - 이 때 index값은 **1부터 시작**
+- insert문 쓸 때는 **executeUpdate**를 사용
 ```java
         String title ="test2";
 		String writerId = "jam";
