@@ -79,7 +79,7 @@ commit;
 ```
 
 # 3. jdbc
-## 3.1.1. driver, statement, resultset객체 만들어주기
+## 3.1.1. [driver, statement, resultset객체 만들어주기](JDBCprj/src/ex1/Program.java)
 ```java
 		String url = "jdbc:oracle:thin:@localhost:1521:XE";
 		String sql = "SELECT * FROM NOTICE";
