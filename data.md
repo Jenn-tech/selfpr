@@ -5,6 +5,7 @@
   - [1.4. member_role 테이블 생성](#14-member_role-테이블-생성)
   - [1.5. member 테이블 생성](#15-member-테이블-생성)
 - [2. 데이터 삽입](#2-데이터-삽입)
+  - [2.1. 아이디를 시퀀스로](#21-아이디를-시퀀스로)
 - [3. jdbc](#3-jdbc)
     - [3.1.1. select문으로 쿼리 불러오기](#311-select문으로-쿼리-불러오기)
     - [3.1.2. insert문으로 데이터 삽입하기](#312-insert문으로-데이터-삽입하기)
@@ -77,6 +78,10 @@ insert into notice values(2, 'jdbc2란 무엇인가?','jenn', 'aaa', sysdate, 0,
 insert into notice values(3, 'jdbc3란 무엇인가?','jenn', 'aaa', sysdate, 0, '');
 commit;
 ```
+  
+  ## 2.1. 아이디를 시퀀스로 
+  - notice테이블편집 > id열 > 열시퀀스 
+    - 만약 그 전에 값이 있었을 경우 last number을 그 마지막 값으로 바꿔줌
 
 # 3. jdbc
 ### 3.1.1. [select문으로 쿼리 불러오기](JDBCprj/src/ex1/Program.java)
@@ -108,14 +113,14 @@ while(rs.next()) {
 		rs.close();
 		st.close();
 		con.close();
-```
-
+``` 
+  
 ### 3.1.2. [insert문으로 데이터 삽입하기](JDBCprj/src/ex1/Program2.java)
 - 쿼리문에 ?을 넣으면서 값을 끼워넣을 수 있는 문장준비
 - 따라서 createStatement가 아닌 prepareStatement를 쓴다
   - 이 때 prepareStatement안에는 sql이 들어있음
 - 각각 ?에 맞는 인덱스와 넣을 값을 setString(int, double등 타입에 맞춰 사용)으로 넣어준다
-  - 이 때 index값은 1부터 시작
+  - 이 때 index값은 
 - insert문 쓸 때는 executeUpdate를 사용
 ```java
         String title ="test2";
