@@ -6,8 +6,8 @@
   - [1.5. member 테이블 생성](#15-member-테이블-생성)
 - [2. 데이터 삽입](#2-데이터-삽입)
 - [3. jdbc](#3-jdbc)
-  - [3.1.1. driver, statement, resultset객체 만들어주기](#311-driver-statement-resultset객체-만들어주기)
-    - [3.1.2. select문으로 쿼리 불러오기](#312-select문으로-쿼리-불러오기)
+    - [3.1.1. select문으로 쿼리 불러오기](#311-select문으로-쿼리-불러오기)
+    - [3.1.2. insert문으로 데이터 삽입하기](#312-insert문으로-데이터-삽입하기)
 
 
 # 1. 테이블 생성
@@ -79,7 +79,11 @@ commit;
 ```
 
 # 3. jdbc
-## 3.1.1. [driver, statement, resultset객체 만들어주기](JDBCprj/src/ex1/Program.java)
+### 3.1.1. [select문으로 쿼리 불러오기](JDBCprj/src/ex1/Program.java)
+- driver, statement, resultset객체 만들어주기
+- select문을 쓸때는 executeQuery를 사용함
+- 자원을 소모하므로 close해주기
+
 ```java
 		String url = "jdbc:oracle:thin:@localhost:1521:XE";
 		String sql = "SELECT * FROM NOTICE";
@@ -88,11 +92,7 @@ commit;
 		Connection con = DriverManager.getConnection(url, "system", "oracle");
 		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery(sql);
-```
 
-### 3.1.2. [select문으로 쿼리 불러오기](JDBCprj/src/ex1/Program.java)
-
-```java
 while(rs.next()) {
 			int id = rs.getInt("ID");
 			String title = rs.getString("TITLE");
@@ -101,10 +101,48 @@ while(rs.next()) {
 			String content = rs.getString("CONTENT");
 			int hit = rs.getInt("hit");
 			
-			System.out.printf("id : %d, title: %s, writerId:%s, regDate : %s, content:%s, hit : %d\n",
+			System.out.printf(
+                "id : %d, title: %s, writerId:%s, regDate : %s, content:%s, hit : %d\n",
 								id, title, writerId, regDate, content, hit);
 		}
 		rs.close();
 		st.close();
 		con.close();
 ```
+
+### 3.1.2. [insert문으로 데이터 삽입하기](JDBCprj/src/ex1/Program2.java)
+- 쿼리문에 ?을 넣으면서 값을 끼워넣을 수 있는 문장준비
+- 따라서 createStatement가 아닌 prepareStatement를 쓴다
+  - 이 때 prepareStatement안에는 sql이 들어있음
+- 각각 ?에 맞는 인덱스와 넣을 값을 setString(int, double등 타입에 맞춰 사용)으로 넣어준다
+  - 이 때 index값은 1부터 시작
+- insert문 쓸 때는 executeUpdate를 사용
+```java
+        String title ="test2";
+		String writerId = "jam";
+		String content = "hahaha";
+		String files = "";
+		
+		String url = "jdbc:oracle:thin:@localhost:1521:XE";
+		String sql = "INSERT INTO notice ("
+				+ "    title,"
+				+ "    writer_id,"
+				+ "    content,"
+				+ "    files"
+				+ ") VALUES (?, ?, ?, ?)";
+		
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection con = DriverManager.getConnection(url, "system", "oracle");
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, title); //1부터 시작
+		st.setString(2, writerId);
+		st.setString(3, content);
+		st.setString(4, files);
+		
+		int result = st.executeUpdate();
+		
+		System.out.println(result);
+		
+		st.close();
+		con.close();
+``` 
