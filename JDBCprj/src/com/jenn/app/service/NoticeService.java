@@ -22,7 +22,7 @@ public class NoticeService {
 		String sql = "SELECT * FROM NOTICE";
 		
 		Class.forName(driver);
-		Connection con = DriverManager.getConnection(url, "uid", "pwd");
+		Connection con = DriverManager.getConnection(url, uid, pwd);
 		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery(sql);
 		
@@ -69,7 +69,7 @@ public class NoticeService {
 				+ ") VALUES (?, ?, ?, ?)";
 		
 		Class.forName(driver);
-		Connection con = DriverManager.getConnection(url, "uid", "pwd");
+		Connection con = DriverManager.getConnection(url, uid, pwd);
 		PreparedStatement st = con.prepareStatement(sql);
 		st.setString(1, title); //1부터 시작
 		st.setString(2, writerId);
@@ -98,7 +98,7 @@ public class NoticeService {
 				+ "where id =?";
 		
 		Class.forName(driver);
-		Connection con = DriverManager.getConnection(url, "uid", "pwd");
+		Connection con = DriverManager.getConnection(url, uid, pwd);
 		PreparedStatement st = con.prepareStatement(sql);
 		st.setString(1, title); //1부터 시작
 		st.setString(2, content);
@@ -118,7 +118,7 @@ public class NoticeService {
 		String sql = "delete notice where id =?";
 		
 		Class.forName(driver);
-		Connection con = DriverManager.getConnection(url, "uid", "pwd");
+		Connection con = DriverManager.getConnection(url, uid, pwd);
 		PreparedStatement st = con.prepareStatement(sql);
 		st.setInt(1, id);
 		
