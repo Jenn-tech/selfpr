@@ -2,12 +2,16 @@
 
 - [목차](#목차)
 - [21.01.01](#210101)
-  - [1. 서블릿](#1-서블릿)
-    - [1.1. 서블릿 기초](#11-서블릿-기초)
-    - [1.2. 언제 dopost, doget을 쓸까](#12-언제-dopost-doget을-쓸까)
-    - [1.3. Hello Servlet 출력](#13-hello-servlet-출력)
-    - [1.4. 라이프 사이클](#14-라이프-사이클)
-    - [1.5. textbox에 입력된 값 얻어오기](#15-textbox에-입력된-값-얻어오기)
+	- [1. 서블릿](#1-서블릿)
+		- [1.1. 서블릿 기초](#11-서블릿-기초)
+		- [1.2. 언제 dopost, doget을 쓸까](#12-언제-dopost-doget을-쓸까)
+		- [1.3. Hello Servlet 출력](#13-hello-servlet-출력)
+		- [1.4. 라이프 사이클](#14-라이프-사이클)
+		- [1.5. textbox에 입력된 값 얻어오기](#15-textbox에-입력된-값-얻어오기)
+- [21.01.02](#210102)
+	- [1. 파일업로드](#1-파일업로드)
+		- [1.1. 파일업로드 위한 jsp 폼](#11-파일업로드-위한-jsp-폼)
+		- [1.2. 파일 업로드 위한 서블릿](#12-파일-업로드-위한-서블릿)
 
 
 
@@ -135,3 +139,49 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
 
 
+# 21.01.02
+## 1. 파일업로드
+### 1.1. 파일업로드 위한 jsp 폼
+```html
+<form action = "../Upload.do" method = "post" enctype = "multipart/form-data">
+글쓴이 : <input type = "text" name = "name"><br>
+제목 : <input type = "text" name = "title"><br>
+파일 지정하기: <input type = "file" name = "uploadFile" > <br>
+<input type = "submit" value = "전송">
+```
+
+### 1.2. 파일 업로드 위한 서블릿
+```java
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		//다운받는 경로가 바뀜
+		String savePath = "upload";
+		int uploadFileSizeLimit = 5* 1024 * 1024;
+		String encType = "UTF-8";
+		
+		ServletContext context = getServletContext();
+		String uploadFilePath = context.getRealPath(savePath);
+		System.out.println("서버상의 실제 디렉토리 : ");
+		System.out.println(uploadFilePath);
+		
+		try {
+			MultipartRequest multi = new MultipartRequest(
+					request, uploadFilePath, uploadFileSizeLimit, encType, new DefaultFileRenamePolicy());
+			
+			String fileName = multi.getFilesystemName("uploadFile");
+			
+			if (fileName == null) {
+				System.out.println("파일 업로드 되지않았음");
+			} else {
+				out.println("<br>글쓴이 : " + multi.getParameter("name"));
+				out.println("<br>제목 : " + multi.getParameter("title"));
+				out.println("<br>파일명 : " + fileName);
+			}
+		} catch (Exception e) {
+			System.out.println("예외 발생 : " + e);
+		}
+		
+```
