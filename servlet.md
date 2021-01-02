@@ -12,6 +12,7 @@
 	- [1. 파일업로드](#1-파일업로드)
 		- [1.1. 파일업로드 위한 jsp 폼](#11-파일업로드-위한-jsp-폼)
 		- [1.2. 파일 업로드 위한 서블릿](#12-파일-업로드-위한-서블릿)
+	- [2. 상품등록](#2-상품등록)
 
 
 
@@ -185,3 +186,5 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 		}
 		
 ```
+
+## 2. 상품등록
